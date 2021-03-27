@@ -1,3 +1,9 @@
+/*
+ * Laboratorio 3 Esercizio 1
+ * Autore: Andrea Grillo
+ * Data: Marzo 2021
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,7 +14,7 @@
 #define OUT "testo.txt"
 
 int main() {
-    FILE *fp_in,*fp_out;
+    FILE *fp_in, *fp_out;
     char carattere;
     int cont = 0;
     bool lastWasPunct = false,
@@ -22,45 +28,62 @@ int main() {
         exit(-1);
     }
 
-    while((carattere = fgetc(fp_in))!= EOF) {
+    // input da file
+    while( (carattere = fgetc(fp_in)) != EOF) {
+
+        // se il carattere precedente era punteggiatura
         if(lastWasPunct) {
-            if(carattere != ' ' && carattere != '\n')
-                printf(" ");
+
+            // se il carattere non è uno spazio ne un 'a capo' aggiunto uno spazio
+            if(carattere != ' ' && carattere != '\n') {
+                fprintf(fp_out, " ");
+                cont++;
+            }
+
             lastWasPunct = false;
         }
 
+        // se il carattere precedente era [./!/?] e il carattere attuale è una lettera lo rendo maiuscolo
         if(nextMaiuscolo && isalpha(carattere)) {
             carattere = toupper(carattere);
             nextMaiuscolo = false;
         }
 
+        // se è una cifra lo codifico con *
         if(isdigit(carattere) != 0){
-            printf("*");
-            continue;
+           carattere = '*';
         }
-
+        // altrimenti se è un segno di punteggiatura lo salvo nel flag
         else if(ispunct(carattere) != 0) {
             lastWasPunct = true;
+
+            // segno se è un segno di punteggiatura che deve essere seguito da un carattere maiuscolo
             if(carattere == '.' ||
                 carattere == '!' ||
                 carattere == '?')
                 nextMaiuscolo = true;
         }
 
-        /*if(carattere == '\n'){
+        if(carattere == '\n'){
             if(cont < 25)
-                for(int i = cont; i < 25; i++) printf(" ");
-            printf("| c:%d\n",cont);
-            continue;
+                for(int i = cont; i < 25; i++) fprintf(fp_out," ");
+            fprintf(fp_out,"| c:%d\n",cont+1);
             cont = 0;
+
+            //non eseguo la stampa del carattere
+            continue;
         }
 
-        if(cont++ >= 25) {
+        //incremento il contatore e verifico che non sia maggiore di 25
+        if(cont >=  24) {
+            fprintf(fp_out,"%c| c:%d\n",carattere,cont+1);
             cont = 0;
-            printf("| c:%d\n",cont);
-            continue;
-        }*/
 
-        printf("%c",carattere);
+            // non eseguo la stampa del carattere
+            continue;
+        }
+
+        fprintf(fp_out,"%c",carattere);
+        cont++;
     }
 }

@@ -1,3 +1,9 @@
+/*
+ * Laboratorio 3 Esercizio 3
+ * Autore: Andrea Grillo
+ * Data: Marzo 2021
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -14,8 +20,8 @@ int main() {
         exit(-1);
     }
 
-    int numero,old_1,old_2,
-        max,min,
+    int numero, old_1, old_2,
+        max, min,
         cont_scartati = 0;
 
     // assumo siano presenti almeno due numeri nel file
@@ -37,8 +43,8 @@ int main() {
         if(!scarta(old_2,old_1,numero)) { // se il numero non viene scartato
 
             // aggiornamento del massimo e del minimo
-            max = (max > numero)?max:numero;
-            min = (min < numero)?min:numero;
+            max = (max > numero) ? max : numero;
+            min = (min < numero) ? min : numero;
 
             // aggiornamento variabilili old_1 e old_2
             old_2 = old_1;
