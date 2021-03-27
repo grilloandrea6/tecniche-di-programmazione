@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/lab2_1_c.dir/main.c.o  -o lab2_1_c 
