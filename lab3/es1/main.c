@@ -10,17 +10,18 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-#define IN "input.txt"
+#define IN  "input.txt"
 #define OUT "testo.txt"
 
 int main() {
     FILE *fp_in, *fp_out;
     char carattere;
-    int cont = 0;
+    int cont = 0, 		    //contatore dei caratteri stampati
+    	    contOrig = 0;	//contatore dei caratteri stampati originali
     bool lastWasPunct = false,
             nextMaiuscolo = false;
 
-    fp_in = fopen(IN,"r");
+    fp_in = fopen(IN, "r");
     fp_out = fopen(OUT, "w");
 
     if(fp_out == NULL || fp_in == NULL) {
@@ -34,7 +35,7 @@ int main() {
         // se il carattere precedente era punteggiatura
         if(lastWasPunct) {
 
-            // se il carattere non è uno spazio ne un 'a capo' aggiunto uno spazio
+            // se il carattere non è uno spazio ne un 'a capo' aggiungo uno spazio
             if(carattere != ' ' && carattere != '\n') {
                 fprintf(fp_out, " ");
                 cont++;
@@ -65,25 +66,28 @@ int main() {
         }
 
         if(carattere == '\n'){
+        
+            // se necessario completo la riga con degli spazi
             if(cont < 25)
                 for(int i = cont; i < 25; i++) fprintf(fp_out," ");
-            fprintf(fp_out,"| c:%d\n",cont+1);
+            
+            //stampo il conteggio e vado a capo
+            fprintf(fp_out,"| c:%d\n",contOrig+1);
             cont = 0;
-
-            //non eseguo la stampa del carattere
-            continue;
+            contOrig=0;
         }
-
-        //incremento il contatore e verifico che non sia maggiore di 25
-        if(cont >=  24) {
-            fprintf(fp_out,"%c| c:%d\n",carattere,cont+1);
+        else if(cont >=  24) {
+            // stampo il carattere, il conteggio e vado a capo
+            fprintf(fp_out,"%c| c:%d\n",carattere,contOrig+1);
             cont = 0;
-
-            // non eseguo la stampa del carattere
-            continue;
+            contOrig = 0;
         }
-
-        fprintf(fp_out,"%c",carattere);
-        cont++;
-    }
+        else {
+            // stampo il carattere e incremento i conteggi
+            fprintf(fp_out,"%c",carattere);
+            cont++;
+            contOrig++;
+        }
+        
+    }//fine ciclo di lettura file
 }
