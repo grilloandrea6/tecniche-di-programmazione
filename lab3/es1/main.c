@@ -71,6 +71,10 @@ int main() {
             if(cont < 25)
                 for(int i = cont; i < 25; i++) fprintf(fp_out," ");
             
+            if(fgetc(fp_in)==EOF) {
+            	            fprintf(fp_out,"| c:%d\n",contOrig);
+            	            break;
+            	            }
             //stampo il conteggio e vado a capo
             fprintf(fp_out,"| c:%d\n",contOrig+1);
             cont = 0;
