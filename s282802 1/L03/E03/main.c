@@ -56,6 +56,8 @@ int main() {
     printf("Numero minimo: %d\n",min);
     printf("Numeri scartati: %d\n",cont_scartati);
 
+    fclose(fp);
+
     return 0;
 }
 

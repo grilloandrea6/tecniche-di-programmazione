@@ -90,4 +90,7 @@ int main() {
         }
         
     }//fine ciclo di lettura file
+    
+    fclose(fp_in);
+    fclose(fp_out);
 }
