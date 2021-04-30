@@ -9,7 +9,7 @@
 #define LINE_LEN        200
 
 //macro to print useful information.
-#define DEBUGGING
+//#define DEBUGGING
 #ifdef DEBUGGING
 #define DEBUG(arg ...) fprintf(stderr,arg);
 #else
@@ -37,6 +37,7 @@ int main() {
     }
     DEBUG("file aperti\n");
 
+    // lettura del numero di voci presenti nel dizionario
     fscanf(diz," %d\n",&n_voci);
     DEBUG("%d\n",n_voci);
 
@@ -47,9 +48,7 @@ int main() {
     }
 
     // lettura da file
-    while(!feof(sorg)) {
-        fgets(line,LINE_LEN,sorg);
-
+    while(fgets(line,LINE_LEN,sorg) != NULL) {
         DEBUG("-%s-",line);
 
         translateString(line,dizionario,n_voci,&ricod);
@@ -58,8 +57,20 @@ int main() {
     return 0;
 }
 
+/*
+ * Funzione che traduce ricorsivamente la stringa
+ */
 void translateString(char *str, voce_diz *diz, int n_voci, FILE **fout) {
     DEBUG("\ntranslating %s - lenght %d\n",str,strlen(str));
+
+    // se la mia stringa ha dimensione 1 è sicuramente '\n',
+    // inutile ricercare parole da codificare
+    // - controllo superfluo ma diminuisce il tempo di esecuzione
+    if(strlen(str) == 1) {
+        DEBUG("stampo a capo e ritorno\n");
+        fprintf(*fout,"\n");
+        return;
+    }
 
     char *pos,*minimo = NULL;
     int indice_diz = 0;
