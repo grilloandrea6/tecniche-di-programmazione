@@ -76,6 +76,6 @@ int massimo(int *vec, int dim) {
             index = i;
         }
     }
-
+it a
     return(index);
 }
