@@ -64,6 +64,7 @@ int main() {
         printf("Indice della squadra al primo posto in classifica: %d.\n",massimo(punteggi,n_squadre));
     }
 
+    fclose(fp);
     return 0;
 }
 
@@ -76,6 +77,5 @@ int massimo(int *vec, int dim) {
             index = i;
         }
     }
-it a
     return(index);
 }

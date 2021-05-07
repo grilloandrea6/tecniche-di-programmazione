@@ -56,6 +56,7 @@ int main() {
         fprintf(stderr,"Errore nella lettura del file!\n");
         exit(EXIT_FAILURE);
     }
+    fclose(fp);
 
     printf("Ciao! Con questo programma puoi filtrare i dati del log.\n");
     printf("Caricati in memoria %d record.\n",numero_record);
