@@ -3,18 +3,18 @@
  * Autore: Andrea Grillo
  * Data: Aprile 2021
  *
- * versione 1:
- *  - iterazioni sull'array non ottimizzate
- *  - non ha bisogno di altri vettori in più di appoggio
+ * versione 2:
+ *  -
+ *  - utilizza un vettore in più di appoggio
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <memory.h>
 
 #define maxN 30
 
 void ruota(int v[maxN], int N, int P, int dir);
-void ruotaSingolo(int v[maxN], int N, int dir);
 
 int main() {
 
@@ -76,39 +76,29 @@ int main() {
         printf("\n");
 
     } while (P != 0);   // condizione inutile in quanto c'è già il break
-                        // ma per sicurezza evito di usare while(true)
+    // ma per sicurezza evito di usare while(true)
 
     return 0;
 }
 
 
 void ruota(int v[maxN], int N, int P, int dir) {
-    for(int i = 0; i < P; i++)
-        ruotaSingolo(v,N,dir);
-}
+    int new_vect[maxN];
+    int j;
 
-// effettuo un singolo spostamento
-void ruotaSingolo(int v[maxN], int N, int dir) {
-    int temp;
+    for(int i = 0; i < N; i ++)
+    {
+        j = (i+ (P * dir) + N) % N;
 
-    // sposto avanti
-    if(dir == 1) {
-        temp = v[N-1];
+        // aggiungendo N prima di fare il modulo non è più necessario
+        //j = (j>=0)?j:j+N;
 
-        for(int i = N; i > 0; i--) {
-            v[i] = v[i-1];
-        }
-
-        v[0] = temp;
-
-    } else { // sposto indietro
-
-        temp = v[0];
-
-        for(int i = 0; i < N-1; i++) {
-            v[i] = v[i+1];
-        }
-
-        v[N-1] = temp;
+        // DEBUG printf("copying i %d in j %d \n",i,j);
+        new_vect[j] = v[i];
     }
+
+    memcpy(v,new_vect,N*sizeof(int));
+    /* copia del vettore senza usare memcpy
+     * for(int i = 0; i < N; i++)
+     *   v[i]=new_vect[i];*/
 }

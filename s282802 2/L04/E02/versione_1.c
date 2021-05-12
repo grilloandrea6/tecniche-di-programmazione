@@ -2,7 +2,12 @@
  * Laboratorio 4 Esercizio 2
  * Autore: Andrea Grillo
  * Data: Aprile 2021
+ *
+ * versione 1:
+ *  - iterazioni sull'array non ottimizzate
+ *  - non ha bisogno di altri vettori in più di appoggio
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 
