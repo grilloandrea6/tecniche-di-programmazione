@@ -4,7 +4,7 @@
  * Data: Aprile 2021
  *
  * versione 2:
- *  -
+ *  -ia
  *  - utilizza un vettore in più di appoggio
  */
 
