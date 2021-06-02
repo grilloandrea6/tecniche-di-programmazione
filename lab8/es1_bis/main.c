@@ -8,54 +8,40 @@ typedef struct{
     int i,j,h,l;
 } isola;
 
-int inIsola(int i, int j, isola *isole, int cont_isole);
-void stampaIsola(isola*,int);
-void salvaIsola(isola*,int k,int i,int j,int h,int l);
-int riconosciRegione(int mat[][MAX_DIM],int nr,int nc,int i,int j, int *l,int *h);
+void leggiMatrice(int[][MAX_DIM], int, int*, int*);
+void stampaIsola(isola*, int);
+void salvaIsola(isola*,int, int, int, int, int);
+int riconosciRegione(int[][MAX_DIM], int, int, int, int, int*, int*);
 
 int main() {
     int nr,nc,mat[MAX_DIM][MAX_DIM],
-            i,j,l,h,cont_isole = 0;
+            i,j,l,h,prima_iterazione = 1;
 
     isola isole[3];
     // isole[0] = isola di h max
     // isole[1] = isola di l max
     // isole[2] = isola di area max
 
-    // apertura file
-    FILE *fp = fopen(FILENAME,"r");
-    assert(fp != NULL);
+    leggiMatrice(mat,MAX_DIM,&nr,&nc);
 
-    //lettura numero di righe e numero di colonne
-    assert(fscanf(fp, "%d %d\n", &nr, &nc) == 2);
-
-    //lettura matrice
-    for (int i = 0; i < nr; i++) {
-        for (int j = 0; j < nc; j++) {
-            assert(fscanf(fp, "%d ", &mat[i][j]) == 1);
-        }
-    }
-
-    fclose(fp);
-
-
-    for(i=0;i < nr;i++) {
+    // DEBUG - stampo matrice
+    /*for(i=0;i < nr;i++) {
         for (j = 0; j < nc; j++)
             printf("%d ",mat[i][j]);
         printf("\n");
-    }
-
+    }*/
 
     // ricerca isole
     for(i = 0; i < nr; i++) {
         for(j = 0; j < nc; j++) {
-
             if (riconosciRegione(mat,nr,nc,i,j,&l,&h)) {
-                // se è la prima la salvo in tutti e tre gli elementi del vettore
-                if(cont_isole == 0) {
+
+                // se è la prima iterazione la salvo in tutti e tre gli elementi del vettore
+                if(prima_iterazione) {
                     for (int k = 0; k < 3; k++) {
                         salvaIsola(isole,k,i,j,h,l);
                     }
+                    prima_iterazione = 0;
                 }
 
                 if(h > isole[0].h) {
@@ -72,20 +58,15 @@ int main() {
 
                 // non controllo le colonne che so già essere occupate dall'isola che ho già trovato
                 j += l-1;
-
-                cont_isole++;
             }
         }
     }
 
-
     printf("Altezza massima: ");
     stampaIsola(isole,0);
 
-
     printf("Larghezza massima: ");
     stampaIsola(isole,1);
-
 
     printf("Area massima: ");
     stampaIsola(isole,2);
@@ -93,23 +74,31 @@ int main() {
     return 0;
 }
 
+void leggiMatrice(int mat[][MAX_DIM], int maxR, int *nr, int *nc) {
+    // apertura file
+    FILE *fp = fopen(FILENAME,"r");
+    assert(fp != NULL);
 
-// controlla se il punto si trova in un'isola già trovata
-int inIsola(int i, int j, isola *isole, int cont_isole) {
-    for(int cont = 0; cont < cont_isole;cont++) {
-        if(j >= isole[cont].j && j < isole[cont].j + isole[cont].l &&
-           i >= isole[cont].i && i < isole[cont].i + isole[cont].h) {
-            return 1;
+    //lettura numero di righe e numero di colonne
+    assert(fscanf(fp, "%d %d\n", nr, nc) == 2);
+    assert(*nr < maxR && *nc < MAX_DIM);
+
+    //lettura matrice
+    for (int i = 0; i < *nr; i++) {
+        for (int j = 0; j < *nc; j++) {
+            assert(fscanf(fp, "%d ", &mat[i][j]) == 1);
         }
     }
-    return 0;
+
+    //chiusura file
+    fclose(fp);
 }
+
 
 void stampaIsola(isola isole[],int i) {
-    printf("estremo:(%d,%d), altezza=%d, larghezza=%d, area=%d.\n",
+    printf("estremo=(%d,%d), altezza=%d, larghezza=%d, area=%d.\n",
            isole[i].i,isole[i].j,isole[i].h,isole[i].l,isole[i].l*isole[i].h);
 }
-
 
 void salvaIsola(isola* isole,int k,int i,int j,int h,int l) {
     isole[k].i = i;
