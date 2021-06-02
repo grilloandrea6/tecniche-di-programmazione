@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/es1_bis.dir/main.c.o  -o es1_bis 
