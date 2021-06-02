@@ -19,7 +19,8 @@ void shellSort(int vect[],int N);
 int main() {
     FILE *fp;
     int V[MAX_N], N, V_appoggio[MAX_N];
-
+    
+    // apertura file
     if ((fp = fopen(FILENAME, "r")) == NULL) {
         fprintf(stderr, "Errore apertura file.\n");
         exit(EXIT_FAILURE);
@@ -59,7 +60,9 @@ int main() {
             printf("%d ", V_appoggio[i]);
         printf("\n\n\n\n\n");
     }
-
+    
+    // chiusura file
+    fclose(fp);
     return 0;
 }
 
