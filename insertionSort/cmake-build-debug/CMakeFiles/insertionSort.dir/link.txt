@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/insertionSort.dir/main.c.o  -o insertionSort 
